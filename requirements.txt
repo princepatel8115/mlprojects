@@ -1,8 +1,8 @@
 pandas
 numpy
 seaborn
-xgboost
-catboost
 scikit-learn
+catboost
+xgboost
 dill
 #-e .   #while building uncomment it
