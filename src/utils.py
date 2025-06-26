@@ -4,7 +4,7 @@ import dill
 
 import numpy as np
 import pandas as pd
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split,GridSearchCV
 from sklearn.metrics import r2_score
 
 from src.exception import CustomException
@@ -22,13 +22,22 @@ def save_object(file_path,obj):   #this function we have used in data transforma
     except Exception as e:
         raise CustomException(e,sys)
     
-def evaluate_models(x_train,y_train,x_test,y_test,models):
+def evaluate_models(x_train,y_train,x_test,y_test,models,param):
     try:
-        x_train,x_test,y_train,y_test=train_test_split(x_train,y_train,test_size=0.2,random_state=42)
         report={}
 
         for i in range(len(list(models))):
             model=list(models.values())[i]
+
+            para=param[list(models.keys())[i]]
+
+            #applying the gridsearchcv for best parameters
+            gs=GridSearchCV(model,para,cv=3)
+            gs.fit(x_train,y_train)
+
+            #setting the best parameters to model
+            model.set_params(**gs.best_params_)
+           
             model.fit(x_train,y_train)
 
 
