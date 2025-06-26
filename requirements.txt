@@ -4,4 +4,5 @@ seaborn
 xgboost
 catboost
 scikit-learn
+dill
 #-e .   #while building uncomment it
